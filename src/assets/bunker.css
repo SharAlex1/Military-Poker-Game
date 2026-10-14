@@ -1,3 +1,3 @@
-/* Original procedural CSS textures: no downloaded artwork. */
-.bunker { background: repeating-linear-gradient(0deg, #0000 0 90px, #0003 91px 93px), radial-gradient(ellipse at 50% 0, #38403b, #141b1c 75%); }
-.felt { background: repeating-linear-gradient(24deg, #ffffff03 0 1px, #00000003 1px 3px), radial-gradient(ellipse at center, #344c39, #1d3328 80%); }
+/* Original SVG architecture, still lighting and procedural materials. */
+.bunker { background:linear-gradient(#07100b55,#09100cd9),url('./bunker-room.svg') center top / cover fixed; }
+.felt { background:repeating-linear-gradient(20deg,#b9cc9905 0 1px,#00000004 1px 3px),radial-gradient(ellipse at 50% 35%,#3b513a,#1b3527 80%); }

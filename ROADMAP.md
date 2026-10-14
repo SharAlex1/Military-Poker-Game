@@ -60,4 +60,18 @@ Remaining limitations: heuristic (non-optimal) AI, fixed blinds, no audio, saved
 - [x] Pass 88 tests, TypeScript, production build, dependency audit and development/production Chromium QA.
 - [ ] Complete native Windows/other-browser, screen-reader and human difficulty/comfort playtesting.
 
-No new gameplay features or redesign were introduced. See [QA_REPORT.md](QA_REPORT.md) for reproducible test commands, exact coverage, fixes and manual limitations. Earlier milestone sections record historical validation; this pass is the current validation result.
+No new gameplay features or redesign were introduced. See [QA_REPORT.md](QA_REPORT.md) for reproducible test commands, exact coverage, fixes and manual limitations. Earlier milestone sections record historical validation; subsequent visual work retains these suites.
+
+## v0.2 — Military visual identity upgrade
+
+- [x] Establish clean 88-test/build baseline and preserve a checkpoint/feature branch.
+- [x] Separate table, player panels, chips, history, cards, controls, tokens and animations.
+- [x] Create original SVG bunker, four illustrated portrait placeholders and application icon.
+- [x] Add tactile cards, stitched rail, denomination chips, steel panels and restrained lighting.
+- [x] Add state-driven cosmetic effects, reduced motion and an independent Animations toggle.
+- [x] Verify unchanged poker/AI/session checksums, 99 tests and production build.
+- [x] Verify target desktop layouts, narrow layouts and full development/production Chromium sessions.
+- [ ] Human Windows/display-scaling/screen-reader and visual-comfort playtesting.
+- [ ] Detailed original character art and higher-detail material/prop refinement.
+
+This milestone changes presentation only. See VISUAL_DESIGN.md for asset provenance, exact verification scope and five recommended next visual improvements.

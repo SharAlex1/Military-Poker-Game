@@ -1,4 +1,11 @@
-@keyframes card-deal { from { opacity: 0; transform: translateY(-12px) rotate(-5deg); } to { opacity: 1; transform: none; } }
-@keyframes turn-pulse { 50% { box-shadow: 0 0 22px #cfaa4838; } }
-.seat-panel.acting { animation: turn-pulse 2s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@keyframes card-deal { from { opacity:0; transform:translate(var(--deal-x,18px),var(--deal-y,-20px)) rotate(-9deg); } to { opacity:1; transform:none; } }
+@keyframes chip-to-pot { from { opacity:0; transform:translateY(10px) scale(.9); } to { opacity:1; transform:none; } }
+@keyframes winner-receives { from { opacity:.3; transform:translateY(-16px); } to { opacity:1; transform:none; } }
+@keyframes settle-pot { from { opacity:1; transform:scale(1.04); } to { opacity:1; transform:none; } }
+.chip-transfer { animation:chip-to-pot 380ms both; }
+.winner .seat-ledger .chip-group { animation:winner-receives 420ms both; }
+.pot-settled { animation:settle-pot 380ms both; }
+.seat-panel { transition:border-color 160ms,opacity 160ms,box-shadow 160ms; }
+[data-motion=off] *, [data-motion=off] *::before, [data-motion=off] *::after { animation:none!important; transition:none!important; }
+@media (prefers-reduced-motion:reduce) { *, *::before, *::after { animation:none!important; transition:none!important; } }
+@keyframes chip-flight { 0% { opacity:.9; transform:none; } 80% { opacity:.7; } 100% { opacity:0; transform:translate(var(--chip-x,0px),var(--chip-y,0px)); } }

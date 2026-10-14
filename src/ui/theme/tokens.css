@@ -1,0 +1,5 @@
+:root { --ink: #ede7d7; --muted: #bdc0ad; --dim: #8c9989; --amber: #d2ae63; --amber-dark: #9d7e42; --steel: #56645a; --panel: #18221f; --border: #68715a; --danger: #d89a83; --felt: #273e30; --shadow: 0 8px 22px #0007; --card-width: 62px; --card-height: 88px; --motion-duration: 340ms; --content-width: 1720px; --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --font-ui:"Segoe UI",system-ui,sans-serif; --font-data:monospace; --radius-panel:3px; }
+@media (min-width:1800px) { .outpost { --card-width:70px; --card-height:98px; } }
+@media (min-width:851px) and (max-height:850px) { .outpost { --card-width:48px; --card-height:68px; } }
+@media (max-width:480px) { .outpost { --card-width:48px; --card-height:68px; } }
+@media (min-width:851px) and (max-height:1100px) and (min-height:851px) { .outpost { --card-width:60px; --card-height:84px; } }

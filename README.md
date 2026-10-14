@@ -2,7 +2,7 @@
 
 An original single-player military-themed Texas Hold’em game for Windows browsers. One human faces three computer opponents using fictional chips only. No real-money gambling, backend, database, account, Unity or Unreal Engine is used.
 
-**Current status:** playable single-player no-limit Hold’em in an original military bunker environment. Face cautious Rook, aggressive Viper and balanced Anchor, with automatic opponent turns and a tested independent rules engine.
+**Current status (v0.2):** playable single-player no-limit Hold’em in an original military bunker environment. Face cautious Rook, aggressive Viper and balanced Anchor, with automatic opponent turns and a tested independent rules engine.
 
 ## Requirements
 Node.js 22.12 or newer and npm. Node 24 is recommended. Use a modern Windows browser such as Edge, Chrome or Firefox.
@@ -60,3 +60,13 @@ The UI uses original CSS textures and fictional identity placeholders. Animated 
 The stability pass passed **88 tests**, TypeScript and the production build. The suite includes **1,464 complete-hand simulations** (1,306 starting with four funded seats), 100 real-opponent-policy hands and category counts for every possible five-card hand. npm audit reported zero known vulnerabilities. Automated Chromium checks passed on development and production builds. See [QA_REPORT.md](QA_REPORT.md) for fixes, coverage counters and remaining manual checks.
 
 No major features or visual changes were added. A downloaded ZIP does not automatically receive GitHub updates; download the latest version or pull changes in a Git checkout to use this QA patch.
+
+## v0.2 visual upgrade
+
+![Outpost Poker v0.2 desktop screenshot](docs/screenshots/v0.2-desktop.png)
+
+The game now has an original SVG bunker, illustrated military portrait placeholders, a stitched table rail, tactile cards, denomination chip stacks and modular tactical panels. The **Animations** checkbox controls only cosmetic effects; system reduced-motion settings take precedence. All poker rules, AI policies and session behavior are preserved. No new dependency is needed.
+
+The current visual build passes **99 tests**, TypeScript and production build. Chromium checks passed at 1366×768, 1920×1080, 2560×1440, 1024×768 and 390×844, plus full 22-hand sessions on development/production. See [VISUAL_DESIGN.md](VISUAL_DESIGN.md) for module/asset details, limitations and next priorities. Native Windows, display scaling and human accessibility/comfort verification remain outstanding.
+
+Download/extract the latest GitHub ZIP or pull updates, then run `npm.cmd ci` and `npm.cmd run dev` from the folder containing package.json. Keep the terminal open and visit the printed Local address. Stop with Ctrl+C when done.

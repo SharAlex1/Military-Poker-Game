@@ -1,0 +1,6 @@
+.chip-group { display: inline-flex; align-items: end; justify-content: center; gap: 5px; min-height: 34px; }
+.chip-stack { position: relative; width: 30px; height: 34px; display: block; }
+.poker-chip { display: grid; place-items: center; position: absolute; width: 30px; height: 24px; border-radius: 50%; background: repeating-conic-gradient(var(--chip-color) 0deg 28deg, #d3ccb5 28deg 42deg); border: 1px solid #0b1512; box-shadow: 0 3px 0 var(--chip-edge), 0 4px 3px #0009; }
+.poker-chip > span { display: grid; place-items: center; width: 20px; height: 16px; border: 1px solid #d1c7a777; border-radius: 50%; background: var(--chip-color); font: 700 8px "Segoe UI",sans-serif; color: #eee7d5; }
+.denomination-250 { --chip-color:#655745; --chip-edge:#342a21; } .denomination-100 { --chip-color:#33464c; --chip-edge:#18272c; } .denomination-25 { --chip-color:#4c6444; --chip-edge:#263621; } .denomination-5 { --chip-color:#82493c; --chip-edge:#47251c; } .denomination-1 { --chip-color:#7b7f74; --chip-edge:#42473e; }
+.compact .chip-stack { width:24px; height:28px; }.compact .poker-chip { width:24px; height:19px; }.compact .poker-chip > span { width:16px; height:13px; font-size:7px; }

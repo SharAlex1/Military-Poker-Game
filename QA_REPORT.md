@@ -49,3 +49,7 @@ Timer tests verify cleanup on unmount, no stale actions after restart, one sched
 - Long human sessions and opponent difficulty/balance; strategies remain approximate heuristics.
 
 Known scope limitations remain unchanged: fixed blinds, in-memory sessions, no audio, statistics, extra modes or Windows installer. Audit results and deterministic simulations provide evidence for this version, not a guarantee against every future dependency issue or undiscovered gameplay defect.
+
+## v0.2 visual regression verification
+
+The visual upgrade retains all QA suites above. **99 tests across 12 files**, TypeScript and production build passed. Domain-source checksums verify that poker, AI and session logic are unchanged. New tests cover exact denomination totals, bounded decorative chip counts and animation preferences leaving session state/timers untouched. Development and production Chromium passed target desktop/narrow layouts, portrait loading, privacy, cosmetic-event isolation, reduced motion and complete 22-hand sessions. See VISUAL_DESIGN.md for the full visual verification scope. Native Windows and human visual/accessibility checks remain pending.

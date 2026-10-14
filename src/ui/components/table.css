@@ -1,0 +1,24 @@
+.table-stage { position: relative; padding: 28px 16px 14px; }
+.overhead-fixture { position:absolute; top:0; left:50%; transform:translateX(-50%); width:220px; height:14px; border-radius:40% 40% 4px 4px; background:linear-gradient(#535a49,#1e2924); border:1px solid #7d8064; display:flex; justify-content:space-around; box-shadow:0 3px 0 #050b08; }
+.overhead-fixture span { width:40px; height:3px; background:#d4b977; align-self:end; box-shadow:0 2px 12px #d4aa5a77; }
+.poker-table { position:relative; display:grid; grid-template-columns:minmax(200px,1fr) minmax(320px,1.5fr) minmax(200px,1fr); grid-template-areas:'. north .' 'west board east' '. south .'; gap:18px 28px; padding:28px; min-height:560px; border:19px solid #2c2b21; border-radius:190px / 130px; outline:1px solid #8d8266; box-shadow:inset 0 0 0 2px #d8cf9a20,inset 0 8px 22px #0008,0 8px 0 #121711,0 10px 0 2px #635e4222,0 22px 38px #000b; }
+.poker-table::before { content:''; position:absolute; inset:-14px; border:1px dashed #8c7d5388; border-radius:180px / 120px; pointer-events:none; }
+.rail-label { position:absolute; right:10%; bottom:-13px; color:#b8ad7b77; font:8px monospace; letter-spacing:2px; }
+.table-center { grid-area:board; text-align:center; align-self:center; position:relative; min-width:0; }
+.table-stencil { font-size:16px; color:#c7c5a34d; letter-spacing:6px; font-weight:800; }
+.phase-label { margin:10px 0 18px; text-transform:uppercase; letter-spacing:3px; font:11px monospace; color:var(--amber); }
+.community { display:flex; gap:9px; justify-content:center; }
+.pot-display { margin:18px auto 8px; display:grid; justify-items:center; gap:4px; }
+.pot-display > span { color:var(--muted); font-size:9px; text-transform:uppercase; letter-spacing:2px; }
+.pot-display strong { font:600 36px Georgia,serif; color:#efdaa9; text-shadow:0 2px 5px #000; }
+.current-bet { color:#c0c9af; font-size:11px; }
+.deck-prop { display:block; position:absolute; left:3%; bottom:5%; width:32px; height:46px; background:repeating-linear-gradient(45deg,#1f3028 0 2px,#425443 2px 3px); border:2px double #b3a97b; border-radius:3px; box-shadow:2px 2px #cdcab4,3px 4px #262c22,4px 6px #858771; color:#d4c18f; font:8px monospace; padding-top:16px; transform:rotate(-12deg); }
+@media (min-width:1800px) { .poker-table { gap:22px 36px; padding:38px; min-height:640px; } }
+@media (max-width:850px) { .table-stage { padding:24px 0 14px; }.poker-table { grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-areas:'west north' 'board board' 'south east'; gap:14px; padding:18px; border-width:10px; border-radius:50px; }.poker-table::before { inset:-6px; border-radius:45px; }.table-center { padding:18px 0; }.deck-prop { display:none; } }
+@media (min-width:851px) and (max-height:850px) { .table-stage { padding:20px 8px 8px; }.poker-table { min-height:390px; padding:16px; gap:12px 18px; border-width:14px; }.phase-label { margin:6px 0 10px; }.pot-display { margin:10px auto 4px; gap:2px; }.pot-display strong { font-size:28px; }.table-stencil { font-size:12px; }.deck-prop { display:none; } }
+@media (max-width:480px) { .poker-table { padding:10px; gap:10px; border-width:7px; }.community { gap:5px; }.rail-label { display:none; } }
+@media (min-width:851px) { .poker-table { padding:22px; gap:16px 22px; min-height:480px; border-width:16px; }.community { gap:7px; }.phase-label { margin:8px 0 12px; }.pot-display { margin:12px auto 6px; }.pot-display strong { font-size:30px; } }
+@media (min-width:851px) and (max-height:850px) { .poker-table { padding:12px; gap:12px 16px; min-height:370px; border-width:12px; }.community { gap:6px; }.table-stencil { font-size:11px; }.phase-label { margin:5px 0 8px; }.pot-display { margin:8px auto 4px; gap:2px; }.pot-display strong { font-size:25px; }.pot-display .chip-group { min-height:25px; }.pot-display .chip-stack { height:25px; } }
+.pot-display { grid-template-columns:auto auto; width:max-content; column-gap:12px; align-items:center; }.pot-display > span { grid-column:1/span 2; }.pot-display strong { grid-column:1; grid-row:2; }.pot-display > .chip-group { grid-column:2; grid-row:2; }
+@media (min-width:851px) and (max-height:850px) { .table-stencil { display:none; }.table-stage { padding-top:16px; }.poker-table { padding:10px; gap:10px 16px; }.pot-display { column-gap:10px; }.current-bet { font-size:10px; } }
+@media (min-width:851px) and (min-height:851px) and (max-height:1100px) { .table-stage { padding-top:22px; }.poker-table { padding:18px; row-gap:12px; } }

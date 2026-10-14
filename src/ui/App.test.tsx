@@ -122,3 +122,19 @@ it('restarts during an opponent turn without applying the discarded session time
     expect(within(screen.getByRole('complementary',{name:'Action history'})).getAllByText(/Anchor (call|raise|fold|all-in)/)).toHaveLength(1);
   } finally { random.mockRestore(); }
 });
+
+it('keeps cosmetic animation settings separate from session state and pending turns',()=>{
+  vi.useFakeTimers();
+  const start=createSession(42);
+  render(<App initialSession={start} aiDelay={100} />);
+  const before=screen.getByRole('complementary',{name:'Action history'}).textContent;
+  fireEvent.click(screen.getByRole('checkbox',{name:'Animations'}));
+  expect(document.querySelector('main')).toHaveAttribute('data-motion','off');
+  expect(screen.getByRole('complementary',{name:'Action history'}).textContent).toBe(before);
+  expect(vi.getTimerCount()).toBe(1);
+  fireEvent.click(screen.getByRole('checkbox',{name:'Animations'}));
+  reactAct(()=>vi.advanceTimersByTime(100));
+  const expected=computerAction(start);
+  expected.game.players.forEach((p,i)=>expect(screen.getByTestId(`stack-${i}`)).toHaveTextContent(p.chips.toLocaleString('en-US')));
+  expect(screen.getByRole('status')).toHaveTextContent('Your turn');
+});

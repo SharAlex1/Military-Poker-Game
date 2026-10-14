@@ -15,7 +15,7 @@ React + TypeScript + Vite form a client-only application. CSS supplies the initi
 | `src/state/lobby.ts` | Retained foundation lobby helper |
 | `src/ai/` | Three opponent policies and sampled equity from private/public observations |
 | `src/ui/` | Playable bunker table, accessible controls, card components, animations and diagnostic simulator |
-| `src/assets/` | Original procedural bunker/felt textures and asset provenance |
+| `src/assets/` | Original SVG bunker/portraits, procedural materials and provenance |
 | `src/main.tsx` | Browser entry point |
 
 Poker modules import no React, DOM, storage, network or desktop APIs. UI dispatches actions and renders results; it does not decide poker outcomes. Each transition validates its input, clones it, applies a command, validates the result and returns a new snapshot. Failed actions leave inputs unchanged. Snapshots are ordinary serializable data; callers must not mutate them. `validateGame` rejects malformed cards, inconsistent phases, impossible actors, invalid stacks and chip-conservation violations.
@@ -69,3 +69,9 @@ Seeded randomness uses bounded 32-bit Mulberry32 state so long streams retain pr
 Betting events optionally carry `wagerIncreased`. Session-generated events set it explicitly, distinguishing all-in calls from all-in raises. AI uses the flag for aggression pressure; legacy ordinary bet/raise events remain supported without it. No hidden information crosses this boundary.
 
 The table obtains last seat actions with one backwards scan restricted to the current hand, and uses one shared restart handler. Regression tests verify that pending timers are cancelled on restart/unmount and that no polling timer exists during a human turn. Layout, rule conventions and independent module boundaries remain unchanged.
+
+## v0.2 presentation architecture
+
+The playable interface is split into TableScene, PlayerPanel, PlayingCard, Chips, Controls and ActionHistory components. Material assets, component CSS, animation keyframes and shared theme tokens are separate. See VISUAL_DESIGN.md for the module map, asset sources and tested layouts. App retains the existing session/AI timer flow and adds only an independent cosmetic Animations preference. No poker, AI or session modules were modified; baseline checksums were verified.
+
+The visual suite passes 99 tests plus type checking/build. CSS effects never dispatch game actions or gate progress. Denomination breakdown is display-only; the engine continues to use integer chip balances. Portraits and bunker SVGs are original local assets; no dependency was added.

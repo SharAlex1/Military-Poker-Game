@@ -5,7 +5,7 @@ export function Controls({ legal, enabled, onAction }: { legal: LegalActions; en
   const [amount, setAmount] = useState(String(range?.min ?? 20));
   const valid = range && Number.isSafeInteger(Number(amount)) && Number(amount) >= range.min && Number(amount) <= range.max;
   return <section className="controls-panel" aria-label="Betting controls">
-    <div className="control-buttons">
+    <div className="controls-heading"><span className="eyebrow">Action station</span><span>{enabled ? "Awaiting your command" : "Stand by / Opponent turn"}</span></div><div className="control-buttons">
       <button disabled={!enabled || !legal.fold} onClick={() => onAction({ type: 'fold' })}>Fold</button>
       <button disabled={!enabled || !legal.check} onClick={() => onAction({ type: 'check' })}>Check</button>
       <button className="primary" disabled={!enabled || legal.call === null} onClick={() => onAction({ type: 'call' })}>Call{legal.call !== null ? ` ${legal.call}` : ''}</button>

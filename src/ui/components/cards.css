@@ -1,10 +1,15 @@
-.playing-card { width: 58px; height: 82px; display: inline-flex; position: relative; flex-shrink: 0; border-radius: 6px; box-shadow: 0 4px 8px #0006; }
-.card-face { background: linear-gradient(135deg, #faf8ed, #e1e2d9); color: #20272a; border: 1px solid #b5b8ab; animation: card-deal .3s both; }
-.card-face.red { color: #a13832; }
-.card-corner { position: absolute; left: 5px; top: 4px; font: 700 15px Georgia, serif; line-height: 1; }
-.card-corner small { display: block; text-align: center; font-size: 12px; }
-.card-corner.lower { top: auto; left: auto; right: 5px; bottom: 4px; transform: rotate(180deg); }
-.card-suit { margin: auto; font-size: 30px; }
-.card-back { background: repeating-linear-gradient(45deg, #374638 0 3px, #25372d 3px 7px); border: 3px double #b3af82; align-items: center; justify-content: center; }
-.card-back span { border: 1px solid #9f9c70; padding: 6px; font-size: 12px; letter-spacing: 1px; color: #d4cb9b; }
-.card-slot { border: 1px dashed #87917a66; align-items: center; justify-content: center; color: #83927c88; box-shadow: none; }
+.playing-card { width:var(--card-width); height:var(--card-height); display:inline-flex; position:relative; flex-shrink:0; border-radius:5px; box-shadow:0 1px 0 #dad7c2,0 5px 7px #0006; }
+.card-face { background:linear-gradient(120deg,#f6f2e3,#dfdfd2); color:#202725; border:1px solid #afae9a; animation:card-deal var(--motion-duration) both; }
+.card-face::after { content:''; position:absolute; inset:4px; border:1px solid #636a4f15; border-radius:2px; pointer-events:none; }
+.card-face.red { color:#9d3930; }
+.card-corner { position:absolute; left:5px; top:4px; font:700 16px Georgia,serif; line-height:1; }
+.card-corner small { display:block; text-align:center; font-size:12px; }
+.card-corner.lower { top:auto; left:auto; right:5px; bottom:4px; transform:rotate(180deg); }
+.card-suit { margin:auto; font:32px Georgia,serif; }
+.card-back { background:repeating-linear-gradient(45deg,#293c2e 0 3px,#1c3026 3px 6px); border:3px double #b1a477; align-items:center; justify-content:center; animation:card-deal var(--motion-duration) both; }
+.card-back::before { content:''; position:absolute; inset:5px; border:1px solid #a9a07888; background:repeating-linear-gradient(-45deg,#d6c19407 0 2px,#0000 2px 4px); }
+.back-emblem { width:35px; height:35px; border:1px solid #c7b987; border-radius:50%; display:grid; place-content:center; text-align:center; font:700 12px Georgia,serif; color:#cfbf8d; background:#24362e; box-shadow:0 0 0 3px #ae9e6933; }
+.back-emblem small { display:block; font:4px monospace; margin-top:3px; letter-spacing:1px; }
+.card-slot { border:1px solid #b8c18d22; background:#10271c28; align-items:center; justify-content:center; color:#a8b69155; box-shadow:inset 0 2px 5px #0003; }
+@media (min-width:851px) and (max-height:850px) { .card-corner { font-size:14px; }.card-corner small { font-size:10px; }.card-suit { font-size:27px; } }
+@media (max-width:480px) { .card-corner { font-size:14px; }.card-suit { font-size:27px; } }
