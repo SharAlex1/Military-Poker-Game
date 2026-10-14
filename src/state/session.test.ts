@@ -2,7 +2,7 @@
 import { expect, it } from 'vitest';
 import { act, createGame, startHand, validateGame, legalActions } from '../poker/engine';
 import { orderedDeck } from '../poker/test-helpers';
-import { createSession, computerAction, humanAction, nextHand, sessionOutcome, visibleCards } from './session';
+import { createSession, computerAction, humanAction, nextHand, sessionOutcome, visibleCards, applyAction } from './session';
 
 it('guards new hands, human turns, invalid seeds and preserves action history', () => {
   const session = createSession(42);
@@ -44,3 +44,16 @@ it('completes 12 single-player sessions against all three opponents without stal
   }
   expect(showdowns+busts).toBeGreaterThan(0);
 },60000);
+
+it('records whether all-ins increased the wager, distinguishing raises from short calls',()=>{
+  let session={...createSession(42),game:startHand(createGame({stacks:[1000,1000,1000,30]}))};
+  session=applyAction(session,3,{type:'all-in'});
+  expect(session.history.at(-1)?.wagerIncreased).toBe(true);
+  session={...createSession(42),game:startHand(createGame({stacks:[1000,1000,30,1000]}))};
+  session=applyAction(session,3,{type:'raise',to:100});
+  session=applyAction(session,0,{type:'call'}); session=applyAction(session,1,{type:'call'});
+  session=applyAction(session,2,{type:'all-in'});
+  const call=session.history.find(e=>e.seat===2 && e.action.type==='all-in');
+  expect(call?.wagerIncreased).toBe(false);
+  expect(call?.text).toContain('10'); // 20 chips were already posted as the big blind.
+});

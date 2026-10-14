@@ -4,7 +4,7 @@ import type { Action, observe } from '../poker/engine';
 
 export type Observation = ReturnType<typeof observe>;
 export type Style = 'cautious' | 'aggressive' | 'balanced';
-export interface BettingEvent { seat: number; phase: string; action: Action; hand: number }
+export interface BettingEvent { seat: number; phase: string; action: Action; hand: number; wagerIncreased?: boolean }
 export const policies = {
   cautious: { margin: .13, raiseAt: .68, bluff: .01, sizing: .45 },
   aggressive: { margin: -.06, raiseAt: .40, bluff: .17, sizing: .95 },
@@ -43,7 +43,7 @@ export function decide(view: Observation, seat: number, style: Style, history: r
   const call = legal.call ?? 0;
   const potOdds = call / Math.max(1, view.pot + call);
   const raises = history.filter(event => event.hand === history.at(-1)?.hand && event.phase === view.phase &&
-    ['raise', 'bet', 'all-in'].includes(event.action.type) && event.seat !== seat).length;
+    (event.wagerIncreased ?? ['raise', 'bet'].includes(event.action.type)) && event.seat >= 0 && event.seat !== seat).length;
   const pressure = Math.min(.15, raises * .035);
   const stackRisk = call / Math.max(1, own.chips);
   const value = equity - pressure;

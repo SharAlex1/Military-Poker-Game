@@ -86,3 +86,39 @@ it('checks on an unopened street and advances the board',()=>{
   const board=screen.getByLabelText('Community cards');
   expect(within(board).getByLabelText('Undealt community card')).toBeInTheDocument();
 });
+
+it('explains closed raising rights without saying the human controls are locked',()=>{
+  let game=startHand(createGame({stacks:[1000,0,50,0]}));
+  game=act(game,0,{type:'call'}); game=act(game,2,{type:'all-in'});
+  render(<App initialSession={{...createSession(42),game}} />);
+  expect(screen.getByRole('button',{name:'Call 30'})).toBeEnabled();
+  expect(screen.getByRole('button',{name:'Raise'})).toBeDisabled();
+  expect(screen.queryByText('Controls unlock on your turn')).not.toBeInTheDocument();
+  expect(screen.getByText('Bet/raise unavailable this turn')).toBeInTheDocument();
+});
+
+it('cancels an opponent timeout on unmount and does not poll while waiting for the human',()=>{
+  vi.useFakeTimers();
+  const pending=render(<App initialSession={createSession(42)} aiDelay={100} />);
+  expect(vi.getTimerCount()).toBe(1);
+  pending.unmount(); expect(vi.getTimerCount()).toBe(0);
+  render(<App initialSession={humanStart()} aiDelay={100} />);
+  expect(vi.getTimerCount()).toBe(0);
+  reactAct(()=>vi.advanceTimersByTime(10000));
+  expect(screen.getByRole('status')).toHaveTextContent('Your turn');
+});
+it('restarts during an opponent turn without applying the discarded session timeout',()=>{
+  vi.useFakeTimers();
+  const random=vi.spyOn(Math,'random').mockReturnValue(42/4294967296);
+  try {
+    render(<App initialSession={createSession(7)} aiDelay={100} />);
+    reactAct(()=>vi.advanceTimersByTime(50));
+    fireEvent.click(screen.getByRole('button',{name:'Restart game'}));
+    reactAct(()=>vi.advanceTimersByTime(50));
+    expect(screen.getByRole('complementary',{name:'Action history'})).not.toHaveTextContent(/Anchor (call|raise|fold|all-in)/);
+    reactAct(()=>vi.advanceTimersByTime(50));
+    const expected=computerAction(createSession(42));
+    expected.game.players.forEach((p,i)=>expect(screen.getByTestId(`stack-${i}`)).toHaveTextContent(p.chips.toLocaleString('en-US')));
+    expect(within(screen.getByRole('complementary',{name:'Action history'})).getAllByText(/Anchor (call|raise|fold|all-in)/)).toHaveLength(1);
+  } finally { random.mockRestore(); }
+});

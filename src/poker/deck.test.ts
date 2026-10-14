@@ -29,3 +29,11 @@ describe('deck', () => {
     expect(() => shuffle([deck[0], deck[0]])).toThrow();
   });
 });
+
+it('keeps long random streams equivalent to a 32-bit state checkpoint', () => {
+  const count=5_000_000;
+  const stream=seededRandom(7);
+  for(let i=0;i<count;i++)stream();
+  const checkpoint=seededRandom((7+Math.imul(count,0x6D2B79F5))>>>0);
+  expect(Array.from({length:10},()=>stream())).toEqual(Array.from({length:10},()=>checkpoint()));
+});

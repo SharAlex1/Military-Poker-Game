@@ -263,3 +263,17 @@ describe('Hold’em state machine', () => {
   });
 
 });
+
+it('rejects inconsistent dealer/blind positions and incomplete settlement records',()=>{
+  for(const mutate of [
+    (g: Game)=>{g.dealer=1;},
+    (g: Game)=>{[g.smallBlindSeat,g.bigBlindSeat]=[g.bigBlindSeat,g.smallBlindSeat];},
+  ]) { const g=begin(); mutate(g); expect(()=>validateGame(g)).toThrow(); }
+  const settled=finish(begin());
+  settled.results=[];
+  expect(()=>validateGame(settled)).toThrow();
+  let refund=act(begin(),3,{type:'raise',to:100});
+  for(let i=0;i<3;i++)refund=act(refund,refund.actor!,{type:'fold'});
+  refund.refunds.push({...refund.refunds[0]});
+  expect(()=>validateGame(refund)).toThrow();
+});

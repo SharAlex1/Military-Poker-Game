@@ -15,7 +15,7 @@ npm ci
 npm run dev
 ```
 
-Open the address printed by Vite in your browser, normally `http://localhost:5173`. Stop the server with Ctrl+C. On Windows these commands work in PowerShell from the repository folder. If npm's cache is unwritable, use `npm ci --cache <writable-cache-directory>`.
+Open the address printed by Vite in your browser, normally `http://localhost:5173`. Stop the server with Ctrl+C. On Windows these commands work in PowerShell from the repository folder. If PowerShell blocks `npm.ps1`, use `npm.cmd ci` and `npm.cmd run dev` without changing execution policy. Keep the server window open while playing; when done, close the game tab and press Ctrl+C in that window (or close the window). Installed Node.js and idle project files do not themselves run a background game process. If npm's cache is unwritable, use `npm ci --cache <writable-cache-directory>`.
 
 ## Checks and production build
 
@@ -54,3 +54,9 @@ The UI uses original CSS textures and fictional identity placeholders. Animated 
 **Open diagnostic simulator** opens a separate developer sandbox with all cards visible and manual control of all seats; it does not expose or alter the active single-player game's cards. Read ARCHITECTURE.md for the standalone engine API and GAME_DESIGN.md for precise rule conventions.
 
 `npm run check` runs the entire automated suite and production build. Tests cover rules, payouts, privacy, AI policies, complete sessions, human betting controls, scheduling, reset and elimination. The AI is a sampled-equity heuristic, not a professional solver. Manual Windows Edge/Firefox, screen-reader/keyboard, animation comfort and gameplay-balance verification remain outstanding. No audio, persistence, statistics, alternative modes or desktop installer is implemented.
+
+## Current QA status
+
+The stability pass passed **88 tests**, TypeScript and the production build. The suite includes **1,464 complete-hand simulations** (1,306 starting with four funded seats), 100 real-opponent-policy hands and category counts for every possible five-card hand. npm audit reported zero known vulnerabilities. Automated Chromium checks passed on development and production builds. See [QA_REPORT.md](QA_REPORT.md) for fixes, coverage counters and remaining manual checks.
+
+No major features or visual changes were added. A downloaded ZIP does not automatically receive GitHub updates; download the latest version or pull changes in a Git checkout to use this QA patch.

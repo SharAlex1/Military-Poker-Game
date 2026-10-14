@@ -15,7 +15,7 @@ export function Controls({ legal, enabled, onAction }: { legal: LegalActions; en
       <label htmlFor="wager">{legal.bet ? 'Bet' : 'Raise'} to <small>(total this round)</small></label>
       <input id="wager" type="number" min={range?.min} max={range?.max} step="1" value={amount} disabled={!enabled || !range} onChange={e => setAmount(e.target.value)} />
       <button className="primary" disabled={!enabled || !valid} onClick={() => onAction({ type: legal.bet ? 'bet' : 'raise', to: Number(amount) })}>{legal.bet ? 'Bet' : 'Raise'}</button>
-      <span>{enabled && range ? `Legal total: ${range.min}–${range.max}` : 'Controls unlock on your turn'}</span>
+      <span>{!enabled ? 'Controls unlock on your turn' : range ? `Legal total: ${range.min}–${range.max}` : 'Bet/raise unavailable this turn'}</span>
     </div>
   </section>;
 }

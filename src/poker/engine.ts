@@ -76,6 +76,9 @@ export function validateGame(g: Game): void {
     if (g.board.length !== size || ![0, 3, 4, 5].includes(size) || g.burns.length !== (size === 0 ? 0 : size - 2)) throw new Error('Invalid board or burn cards');
     if (g.smallBlindSeat === null || g.bigBlindSeat === null || g.smallBlindSeat === g.bigBlindSeat ||
       ![g.dealer, g.smallBlindSeat, g.bigBlindSeat].every(i => integer(i) && i < 4 && g.players[i].hole.length === 2)) throw new Error('Invalid button or blind seats');
+    const participants = g.players.flatMap((p, i) => p.hole.length === 2 ? [i] : []);
+    const expectedSmall = participants.length === 2 ? g.dealer : nextSeat(g.dealer, participants);
+    if (g.smallBlindSeat !== expectedSmall || g.bigBlindSeat !== nextSeat(expectedSmall, participants)) throw new Error('Blinds do not match dealer position');
   }
   const conserved = g.players.reduce((sum, p) => sum + p.chips + p.committed, 0);
   if (conserved !== g.totalChips) throw new Error('Chip conservation violated');
@@ -85,6 +88,8 @@ export function validateGame(g: Game): void {
       (g.currentBet !== Math.max(...g.players.map(p => p.streetBet)) && !(g.phase === 'preflop' && g.currentBet === g.bigBlind && g.currentBet > Math.max(...g.players.map(p => p.streetBet)))) ||
       g.minRaise > Math.max(g.bigBlind, g.currentBet) || g.results.length || g.refunds.length) throw new Error('Invalid betting state');
   } else if (g.actor !== null || g.players.some(p => p.committed || p.streetBet) || g.currentBet) throw new Error('Invalid inactive state');
+  if (['complete', 'showdown'].includes(g.phase) && !g.results.length) throw new Error('Missing settlement results');
+  if (new Set(g.refunds.map(r => r.seat)).size !== g.refunds.length) throw new Error('Duplicate refund');
   if (g.phase === 'complete' && g.players.filter(live).length !== 1) throw new Error('Invalid fold settlement');
   if (g.phase === 'showdown' && g.players.filter(live).length < 2) throw new Error('Invalid showdown');
   for (const refund of g.refunds) if (!integer(refund.seat) || refund.seat > 3 || !integer(refund.amount) || !refund.amount) throw new Error('Invalid refund');

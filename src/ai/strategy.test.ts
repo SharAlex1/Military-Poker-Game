@@ -52,9 +52,9 @@ describe('opponent strategies', () => {
     expect(decide(observation, 3, 'aggressive', [], seededRandom(42))).toEqual(decide(observation, 3, 'aggressive', [], seededRandom(42)));
     expect(() => decide(observation, 2, 'balanced', [], seededRandom(42))).toThrow();
   });
-  it('produces legal actions with all three profiles across 20 complete hands', () => {
+  it('produces legal actions with all three profiles across 100 complete hands', () => {
     const actors = new Set<number>();
-    for (let seed=0; seed<20; seed++) {
+    for (let seed=0; seed<100; seed++) {
       let session = createSession(seed); let steps=0;
       while (session.game.actor !== null) {
         expect(++steps).toBeLessThan(300);
@@ -67,4 +67,14 @@ describe('opponent strategies', () => {
     }
     expect([...actors].sort()).toEqual([1,2,3]);
   }, 30000);
+});
+
+it('does not treat recorded all-in calls as raises',()=>{
+  const observation=view();
+  observation.board=cards('As Ks Qs Js 10s'); observation.players[3].hole=cards('2h 3h');
+  observation.legal.call=45; observation.pot=200;
+  const calls=[0,1,2].map(seat=>({seat,phase:'river',hand:1,action:{type:'all-in' as const},wagerIncreased:false}));
+  expect(decide(observation,3,'balanced',calls,()=>.5).type).toBe('call');
+  const raises=calls.map(event=>({...event,wagerIncreased:true}));
+  expect(decide(observation,3,'balanced',raises,()=>.5).type).toBe('fold');
 });

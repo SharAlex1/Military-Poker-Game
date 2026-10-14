@@ -26,7 +26,9 @@ export function applyAction(session: Session, seat: number, action: Action): Ses
   const paid = action.type === 'call' ? Math.min(before.currentBet - before.players[seat].streetBet, before.players[seat].chips) :
     action.type === 'all-in' ? before.players[seat].chips : 0;
   const text = `${before.players[seat].name} ${action.type}${'to' in action ? ` to ${action.to}` : paid ? ` (${paid})` : ''}.`;
-  const entries: Entry[] = [{ seat, phase: before.phase, action: { ...action }, hand: before.handNumber, text }];
+  const wagerIncreased = action.type === 'bet' || action.type === 'raise' ||
+    action.type === 'all-in' && before.players[seat].streetBet + before.players[seat].chips > before.currentBet;
+  const entries: Entry[] = [{ wagerIncreased, seat, phase: before.phase, action: { ...action }, hand: before.handNumber, text }];
   if (before.phase !== game.phase) entries.push({ seat: -1, phase: game.phase, action: { type: 'check' }, hand: game.handNumber,
     text: game.actor === null ? 'Hand resolved. Payouts distributed.' : `${game.phase.toUpperCase()} • community cards dealt.` });
   if (game.actor === null) for (const [i, pot] of game.results.entries()) entries.push({ seat: -1, phase: game.phase, action: { type: 'check' }, hand: game.handNumber,

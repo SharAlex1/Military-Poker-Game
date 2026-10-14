@@ -1,6 +1,6 @@
 # Instructions for future Codex sessions
 
-1. Read README.md, GAME_DESIGN.md, ARCHITECTURE.md and ROADMAP.md before modifying the project. Inspect Git status and preserve the user's existing changes.
+1. Read README.md, GAME_DESIGN.md, ARCHITECTURE.md and ROADMAP.md before modifying the project. Read QA_REPORT.md for current verification evidence and pending manual checks. Inspect Git status and preserve the user's existing changes.
 2. Work in the existing checkout. Cloud tasks already use isolated environments; do not create worktrees unless explicitly requested.
 3. Preserve working features, accessible UI, fictional-chip restrictions and module boundaries. Do not silently remove behavior or expand the requested milestone.
 4. Keep poker rules and transitions independent of React and platform APIs. AI must never see other players' private cards. Do not present placeholder profiles as implemented strategies.

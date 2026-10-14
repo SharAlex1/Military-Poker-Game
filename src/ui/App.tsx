@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { legalActions } from '../poker/engine';
 import { evaluateHand } from '../poker/evaluate';
 import { opponents } from '../ai/opponents';
-import { computerAction, createSession, humanAction, nextHand, sessionOutcome, visibleCards, type Session } from '../state/session';
+import { computerAction, createSession, humanAction, nextHand, sessionOutcome, visibleCards, type Session, type Entry } from '../state/session';
 import { PlayingCard } from './components/PlayingCard';
 import { Controls } from './components/Controls';
 import { Simulator } from './Simulator';
@@ -21,6 +21,13 @@ export function App({ initialSession, aiDelay = 650 }: AppProps) {
   const legal = legalActions(game, 0);
   const resolved = game.actor === null;
   const pot = resolved ? game.results.reduce((sum, p) => sum + p.amount, 0) : game.players.reduce((sum, p) => sum + p.committed, 0);
+  const restart = () => { setSession(fresh()); setError(''); };
+  const lastActions: Partial<Record<number, Entry>> = {};
+  for (let i = session.history.length - 1; i >= 0; i--) {
+    const entry = session.history[i];
+    if (entry.hand !== game.handNumber) break;
+    if (entry.seat >= 0 && !lastActions[entry.seat]) lastActions[entry.seat] = entry;
+  }
   const wonSeats = new Set(game.results.flatMap(p => p.winners));
   useEffect(() => {
     if (game.actor === null || game.actor === 0 || error) return;
@@ -35,7 +42,7 @@ export function App({ initialSession, aiDelay = 650 }: AppProps) {
   return <main className="outpost bunker">
     <header className="masthead">
       <div><span className="eyebrow">Sector 07 / Recreation bunker</span><h1>Outpost <span>Poker</span></h1></div>
-      <div className="header-tools"><span className="status">Single-player / Local play</span><button onClick={() => { setSession(fresh()); setError(''); }}>Restart game</button></div>
+      <div className="header-tools"><span className="status">Single-player / Local play</span><button onClick={restart}>Restart game</button></div>
     </header>
     <div className="mission-strip"><span>NO-LIMIT HOLD’EM</span><span>Hand {game.handNumber} / Blinds {game.smallBlind}–{game.bigBlind}</span><span>Fictional chips only · No real-money gambling</span></div>
     <div className="game-layout">
@@ -45,7 +52,7 @@ export function App({ initialSession, aiDelay = 650 }: AppProps) {
             const profile = opponents[seat - 1];
             const cards = visibleCards(game, seat);
             const reveal = game.phase === 'showdown' && player.status !== 'folded' && player.status !== 'out';
-            const lastAction = [...session.history].reverse().find(e => e.hand === game.handNumber && e.seat === seat);
+            const lastAction = lastActions[seat];
             return <article key={player.id} className={`seat-panel position-${seat}${game.actor === seat ? ' acting' : ''}${player.status === 'folded' || player.status === 'out' ? ' inactive' : ''}${wonSeats.has(seat) ? ' winner' : ''}`} aria-label={`${player.name} seat`}>
               <div className="identity"><span className={`portrait portrait-${seat}`} aria-hidden="true">{seat === 0 ? 'OP' : player.name[0]}</span><div><h2>{player.name}</h2><span className="seat-role">{seat === 0 ? 'You / Outpost operator' : `${profile.role} / ${profile.style}`}</span></div><span className="markers">{game.dealer === seat && <span title="Dealer" aria-label="Dealer button">D</span>}{game.smallBlindSeat === seat && <span title="Small blind">SB</span>}{game.bigBlindSeat === seat && <span title="Big blind">BB</span>}</span></div>
               <div className="seat-cards" aria-label={`${player.name} cards`}>
@@ -71,7 +78,7 @@ export function App({ initialSession, aiDelay = 650 }: AppProps) {
           {game.results.map((p, i) => <p key={i}>{i === 0 ? 'Main pot' : `Side pot ${i}`} · {p.amount} chips → {p.awards.map(a => `${game.players[a.seat].name} +${a.amount}`).join(' / ')}</p>)}
           {game.refunds.map(r => <p key={r.seat}>{game.players[r.seat].name}: {r.amount} uncalled chips returned</p>)}
           {outcome === 'playing' && <button className="primary" onClick={() => { try { setSession(nextHand(session)); setError(''); } catch (problem) { setError(String(problem)); } }}>New hand</button>}
-          {outcome !== 'playing' && <button className="primary" onClick={() => { setSession(fresh()); setError(''); }}>Play again</button>}
+          {outcome !== 'playing' && <button className="primary" onClick={restart}>Play again</button>}
         </section> : <Controls key={`${game.handNumber}-${game.phase}-${game.actor}-${game.currentBet}`} legal={legal} enabled={humanTurn && !error} onAction={action => {
           try { setSession(humanAction(session, action)); setError(''); }
           catch (problem) { setError(problem instanceof Error ? problem.message : 'Invalid action'); }

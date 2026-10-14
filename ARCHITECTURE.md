@@ -59,3 +59,13 @@ React schedules one opponent action at a time, normally 650 ms apart, and cleans
 Card rendering, card CSS, animation keyframes, procedural texture CSS and game logic live in separate modules. Reduced-motion preferences disable animations. Session state and history are in memory only; refreshing or restarting clears them. No extra dependency, service, account or persistent storage was added.
 
 The playable milestone passes 74 tests across nine files, including 12 full single-player sessions and 20 opponent-policy hands in addition to prior engine stress tests. Chromium development/production each pass a reproducible 22-hand session through the actual UI. Native Windows and human usability/difficulty testing are separate outstanding checks.
+
+## QA invariants and regressions
+
+The current QA pass adds deterministic stress and exhaustive five-card category tests to the normal `npm run check` suite (88 tests total). `src/poker/stability.test.ts` completes 1,464 hands, including at least 1,200 prescribed four-seat starts plus elimination sessions, and validates each transition and settlement ledger. `src/poker/evaluation-histogram.test.ts` compares all five-card category counts with independent combinatorial totals. See QA_REPORT.md for exact recorded counters and browser/manual scope.
+
+Seeded randomness uses bounded 32-bit Mulberry32 state so long streams retain precision. Snapshot validation verifies blind positions against participants who were dealt into the current hand, including all-in seats that now have zero chips. Settled snapshots require pot results and unique refund entries.
+
+Betting events optionally carry `wagerIncreased`. Session-generated events set it explicitly, distinguishing all-in calls from all-in raises. AI uses the flag for aggression pressure; legacy ordinary bet/raise events remain supported without it. No hidden information crosses this boundary.
+
+The table obtains last seat actions with one backwards scan restricted to the current hand, and uses one shared restart handler. Regression tests verify that pending timers are cancelled on restart/unmount and that no polling timer exists during a human turn. Layout, rule conventions and independent module boundaries remain unchanged.

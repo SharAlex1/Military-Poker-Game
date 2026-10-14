@@ -48,3 +48,16 @@ Three Vitest tests passed across two files. Strict TypeScript checking and Vite 
 74 tests pass across nine files. New coverage includes distinct policy sizing, equity/ties, betting-history and chip-risk responses, closed raising rights, information boundaries, 20 complete hands and 12 complete single-player sessions against all three policies. UI tests cover checks/calls/raises/folds/all-ins, automatic turns, StrictMode scheduling, restart, payouts, showdown privacy, elimination/victory and next hands. All prior rules-engine tests remain intact. TypeScript and production build pass. Chromium development and production preview each completed a reproducible 22-hand single-player session via the actual betting UI (with accelerated timer clock). Browser checks verified disabled invalid raises, automatic opponents, privacy/showdown reveals, exact 4,000-chip conservation at hand boundaries, next hands, victory/elimination termination, restart, 1366×768 control visibility, narrow-screen width, reduced motion and no runtime errors.
 
 Remaining limitations: heuristic (non-optimal) AI, fixed blinds, no audio, saved sessions, statistics, extra modes or desktop installer. Native Windows Edge/Firefox, screen-reader/keyboard usability, animation comfort and strategic balance still require manual verification.
+
+## QA and stability pass
+
+- [x] Review rules, deck/evaluation, pots, AI, session flow, UI scheduling and locked dependencies.
+- [x] Add deterministic 1,000+ hand stress coverage and independent settlement-ledger checks.
+- [x] Verify 1,464 complete hands (1,306 four-funded-seat starts), side/split pots, all-ins, elimination and dealer rotation.
+- [x] Verify all 2,598,960 five-card category frequencies.
+- [x] Fix all-in-call aggression history, closed-raise hint, long-stream RNG precision and snapshot validation gaps.
+- [x] Consolidate restart handling and avoid repeated history copies during rendering.
+- [x] Pass 88 tests, TypeScript, production build, dependency audit and development/production Chromium QA.
+- [ ] Complete native Windows/other-browser, screen-reader and human difficulty/comfort playtesting.
+
+No new gameplay features or redesign were introduced. See [QA_REPORT.md](QA_REPORT.md) for reproducible test commands, exact coverage, fixes and manual limitations. Earlier milestone sections record historical validation; this pass is the current validation result.

@@ -36,3 +36,7 @@ The optional diagnostic simulator is a separate, explicitly labeled developer sa
 
 ## Remaining expansion
 Sound, local statistics/save games, additional modes, custom illustrated portraits and Windows packaging remain future work. Sessions do not persist after refresh. A future Windows wrapper may use Tauri or Electron; none is selected or tested yet. Keyboard-only, screen-reader, Windows Edge/Firefox and strategic-balance playtesting remain release checks.
+
+## Stability verification
+
+The QA pass preserves these rules and the existing presentation. AI history now distinguishes calls that use a player's full stack from actions that actually increase the wager. The engine rejects inconsistent dealer/blind metadata and incomplete payout records. See QA_REPORT.md for deterministic simulation coverage and remaining human playtesting; no new mode or rule variant was introduced.

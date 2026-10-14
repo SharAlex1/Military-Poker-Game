@@ -15,12 +15,12 @@ export function createDeck(): Card[] {
   return suits.flatMap(suit => ranks.map(rank => ({ suit, rank })));
 }
 
-/** Deterministic non-cryptographic PRNG for repeatable simulations, not money play. */
+/** Seeded Mulberry32 with bounded 32-bit state for repeatable simulations, not money play. */
 export function seededRandom(seed: number): () => number {
   if (!Number.isSafeInteger(seed)) throw new Error('Seed must be a safe integer');
   let value = seed >>> 0;
   return () => {
-    value += 0x6D2B79F5;
+    value = (value + 0x6D2B79F5) >>> 0;
     let t = Math.imul(value ^ value >>> 15, value | 1);
     t ^= t + Math.imul(t ^ t >>> 7, t | 61);
     return ((t ^ t >>> 14) >>> 0) / 4294967296;
