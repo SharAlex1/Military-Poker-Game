@@ -1,4 +1,5 @@
 import { createLobby } from '../state/lobby';
+import { Simulator } from './Simulator';
 
 export function App() {
   const seats = createLobby();
@@ -6,7 +7,7 @@ export function App() {
     <main className="outpost">
       <header className="masthead">
         <span className="eyebrow">Sector 07 / Recreation bunker</span>
-        <span className="status">Foundation build</span>
+        <span className="status">Rules engine build</span>
       </header>
       <section className="briefing" aria-labelledby="title">
         <p className="eyebrow">Off duty. On the felt.</p>
@@ -30,10 +31,11 @@ export function App() {
           ))}
         </ul>
         <div className="deployment">
-          <p>Gameplay is under construction. This build establishes the project foundation.</p>
+          <p>The final game interface is under construction. Try the rules engine simulator below.</p>
           <button disabled title="Playable hands arrive in a future milestone">Deal hand — coming soon</button>
         </div>
       </section>
+      <Simulator />
       <footer>OUTPOST POKER / Local play / No account required</footer>
     </main>
   );

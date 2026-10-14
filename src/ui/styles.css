@@ -30,3 +30,18 @@ button { padding: 14px 20px; border: 1px solid #82744f; background: #3a3928; col
 footer { margin-top: 30px; font-size: 10px; line-height: 1.8; }
 @media (max-width: 760px) { .seats { grid-template-columns: repeat(2, 1fr); } .deployment { align-items: flex-start; flex-direction: column; gap: 10px; } .masthead { align-items: flex-start; } }
 @media (max-width: 420px) { .outpost { padding: 22px 16px; } .table { padding: 16px; } .seats { grid-template-columns: 1fr; } .status { font-size: 9px; } }
+
+.simulator { margin-top: 32px; border: 1px solid #57614c; padding: 24px; background: #18231c; }
+.simulator p { line-height: 1.6; color: #c5cdbb; }
+.sim-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.sim-controls label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.sim-controls input { width: 130px; padding: 10px; border: 1px solid #82744f; background: #111c16; color: #e5eadc; font: inherit; }
+.simulator button:enabled { cursor: pointer; background: #555038; }
+.simulator button:disabled { opacity: .5; }
+.simulator button:focus-visible, input:focus-visible { outline: 2px solid #dfc785; outline-offset: 3px; }
+.sim-table-wrap { overflow-x: auto; }
+.simulator table { width: 100%; border-collapse: collapse; text-align: left; }
+.simulator th, .simulator td { padding: 10px; border-bottom: 1px solid #495342; white-space: nowrap; }
+.simulator tr[aria-current] { background: #373b29; }
+.simulator pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.simulator [role=alert] { color: #ffb5a4; }
