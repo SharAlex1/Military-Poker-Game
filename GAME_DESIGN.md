@@ -3,7 +3,7 @@
 ## Vision and scope
 An original single-player Texas Hold’em game for Windows, initially played in a browser. A fictional military outpost's recreation bunker provides an olive, charcoal and brass atmosphere. Use original visuals and fictional characters; do not copy military-game art, branding or characters.
 
-One human plays against three future computer opponents. All chips are fictional: no purchases, deposits, cash-out, real-money wagers or monetary rewards. No accounts, backend or database are required.
+One human plays against three computer-controlled opponents. All chips are fictional: no purchases, deposits, cash-out, real-money wagers or monetary rewards. No accounts, backend or database are required.
 
 ## Implemented rules
 - Standard no-limit Texas Hold’em with a 52-card deck, two private cards per funded seat, five community cards and the best five-card hand from seven available cards.
@@ -19,9 +19,20 @@ One human plays against three future computer opponents. All chips are fictional
 - A sole survivor receives the pots immediately without revealing additional board cards. Otherwise the engine automatically runs out the board when betting is no longer possible, evaluates showdown and pays chips. The next hand begins explicitly. One funded seat ends the session.
 
 ## Opponents
-Rook is planned to be disciplined and patient; Viper aggressive with selective bluffs; Anchor measured and observant. These are profile descriptions only. The engine labels one human and three computer seats but does not supply computer decisions. Future AI must consume its own cards plus public information from `observe`, never the full snapshot or opponents' private cards.
+- Rook, recon specialist: cautious; higher call/value-raise thresholds, smaller sizing and rare bluffs.
+- Viper, assault lead: aggressive; wider calls, larger raises and more frequent selective bluffs.
+- Anchor, watch commander: balanced; middle-ground thresholds, sizing and bluff frequency.
 
-## Current experience and expansion
-The original roster remains, with a rules simulator beneath it. The simulator deliberately shows all hole cards and lets the developer control every seat, submit bets, finish hands by calling/checking, rotate the button, and reset seeded sessions. It is a diagnostic interface, not the final single-player experience.
+Each decision estimates strength from its own two cards, the board and sampled unknown cards. Pot odds, available chips and current-street betting history influence the action. AI never sees the actual engine deck, burn cards or another seat's private cards. Decisions must satisfy the existing engine's legal actions. Sampling and heuristic policies aim for varied, functional opponents; strategic difficulty/balance still needs human playtesting.
 
-Prioritize readable cards, legal actions, visible chip amounts, keyboard access and responsive layouts when building that experience. Animations, optional sound, local statistics and configurable modes remain later work. A future Windows package may use Tauri or Electron; no wrapper is selected or tested yet.
+## Playable experience
+The bunker table displays four fictional identities, original shield placeholders, cards, stacks, current bets, pot, dealer/blind markers, board and active seat. Human betting controls provide Fold, Check, Call, All-in, and a numeric Bet/Raise total. AI acts automatically, with a short delay for clear feedback. New hand retains stacks and rotates the button; Restart game restores four 1,000-chip stacks with a fresh shuffle.
+
+Opponents' cards remain hidden until showdown and only non-folded participants reveal. Folded hands and uncontested winners stay private. The human always sees their own cards. Hand results report main/side-pot awards and uncalled refunds; the tactical feed lists important public actions and phase changes. The single-player session ends when the human is eliminated or has all 4,000 chips, with Play again available.
+
+Original CSS creates charcoal bunker walls, worn olive felt, steel panels and muted amber controls. Cards use clean rank/suit corners with readable suit symbols and restrained dealing animations. Reduced-motion settings disable animation. Layouts support Windows desktop browsers and adapt to narrow viewports. No external game artwork or custom font was downloaded.
+
+The optional diagnostic simulator is a separate, explicitly labeled developer sandbox that exposes all of its own cards. It remains closed by default and is not part of opponent gameplay.
+
+## Remaining expansion
+Sound, local statistics/save games, additional modes, custom illustrated portraits and Windows packaging remain future work. Sessions do not persist after refresh. A future Windows wrapper may use Tauri or Electron; none is selected or tested yet. Keyboard-only, screen-reader, Windows Edge/Firefox and strategic-balance playtesting remain release checks.

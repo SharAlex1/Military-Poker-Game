@@ -1,0 +1,10 @@
+.playing-card { width: 58px; height: 82px; display: inline-flex; position: relative; flex-shrink: 0; border-radius: 6px; box-shadow: 0 4px 8px #0006; }
+.card-face { background: linear-gradient(135deg, #faf8ed, #e1e2d9); color: #20272a; border: 1px solid #b5b8ab; animation: card-deal .3s both; }
+.card-face.red { color: #a13832; }
+.card-corner { position: absolute; left: 5px; top: 4px; font: 700 15px Georgia, serif; line-height: 1; }
+.card-corner small { display: block; text-align: center; font-size: 12px; }
+.card-corner.lower { top: auto; left: auto; right: 5px; bottom: 4px; transform: rotate(180deg); }
+.card-suit { margin: auto; font-size: 30px; }
+.card-back { background: repeating-linear-gradient(45deg, #374638 0 3px, #25372d 3px 7px); border: 3px double #b3af82; align-items: center; justify-content: center; }
+.card-back span { border: 1px solid #9f9c70; padding: 6px; font-size: 12px; letter-spacing: 1px; color: #d4cb9b; }
+.card-slot { border: 1px dashed #87917a66; align-items: center; justify-content: center; color: #83927c88; box-shadow: none; }

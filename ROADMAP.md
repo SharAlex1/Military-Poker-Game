@@ -16,14 +16,16 @@
 - [x] Independent API and all-seat debug simulator.
 
 ## Milestone 2 — Playable single-player table
-- [ ] Hand/session state orchestration and legal human actions.
-- [ ] Baseline AI using private/public information boundaries.
-- [ ] Complete four-seat hand, elimination and restart flows.
-- [ ] Functional gameplay tests and manual browser validation.
+- [x] Hand/session state orchestration and legal human actions.
+- [x] Baseline AI using private/public information boundaries.
+- [x] Complete four-seat hand, elimination and restart flows.
+- [x] Automated full-session and Chromium browser gameplay validation.
+- [ ] Human Windows-browser and accessibility playtesting.
 
 ## Milestone 3 — Character and presentation
-- [ ] Distinct, tested opponent strategies.
-- [ ] Card art, animations, optional sound and accessibility polish.
+- [x] Distinct, tested cautious, aggressive and balanced opponent strategies.
+- [x] Original CSS bunker/felt textures, professional cards, fictional identity placeholders and reduced-motion animations.
+- [ ] Optional sound and accessibility release polish.
 - [ ] Local statistics and additional configurable game modes.
 
 ## Milestone 4 — Windows release
@@ -31,7 +33,7 @@
 - [ ] Package, installer, offline startup, Windows smoke tests.
 - [ ] Asset licensing review and release documentation.
 
-The rules engine milestone is complete. Final human-facing gameplay with autonomous opponents remains in Milestone 2. Record validation results and limitations as milestones progress.
+The rules engine and playable single-player milestone are implemented. Windows-native/manual release validation and the remaining presentation/packaging features are still outstanding. Record validation results and limitations as milestones progress.
 
 ## Foundation validation
 
@@ -40,3 +42,9 @@ Three Vitest tests passed across two files. Strict TypeScript checking and Vite 
 ## Rules engine validation
 
 59 automated tests passed across seven files, including 150 seeded random-action hands and 50 seeded sessions through elimination and 100 short-stack scenarios. TypeScript and Vite production build passed. Chromium simulator smoke checks passed on development and production preview: rejected/accepted raises, showdown, 4,000-chip conservation, next hand, reset, narrow-screen layout and no runtime errors. Computer decision strategies, the final table experience, sound/statistics, persistence and Windows packaging remain unimplemented.
+
+## Playable single-player validation
+
+74 tests pass across nine files. New coverage includes distinct policy sizing, equity/ties, betting-history and chip-risk responses, closed raising rights, information boundaries, 20 complete hands and 12 complete single-player sessions against all three policies. UI tests cover checks/calls/raises/folds/all-ins, automatic turns, StrictMode scheduling, restart, payouts, showdown privacy, elimination/victory and next hands. All prior rules-engine tests remain intact. TypeScript and production build pass. Chromium development and production preview each completed a reproducible 22-hand single-player session via the actual betting UI (with accelerated timer clock). Browser checks verified disabled invalid raises, automatic opponents, privacy/showdown reveals, exact 4,000-chip conservation at hand boundaries, next hands, victory/elimination termination, restart, 1366×768 control visibility, narrow-screen width, reduced motion and no runtime errors.
+
+Remaining limitations: heuristic (non-optimal) AI, fixed blinds, no audio, saved sessions, statistics, extra modes or desktop installer. Native Windows Edge/Firefox, screen-reader/keyboard usability, animation comfort and strategic balance still require manual verification.

@@ -11,10 +11,11 @@ React + TypeScript + Vite form a client-only application. CSS supplies the initi
 | `src/poker/pots.ts` | Contribution layers, eligibility, unmatched refunds, split/odd-chip awards |
 | `src/poker/engine.ts` | Four-seat session, immutable hand transitions, legal-action queries and validation |
 | `src/poker/index.ts` | Public domain API |
-| `src/state/` | Placeholder lobby; future presentation/session integration |
-| `src/ai/` | Opponent profiles; future decisions from filtered observations |
-| `src/ui/` | Original roster, React simulator and CSS |
-| `src/assets/` | Original or licensed images, fonts and sound with provenance |
+| `src/state/session.ts` | Session creation, human/AI actions, seeded next hands, history and visibility |
+| `src/state/lobby.ts` | Retained foundation lobby helper |
+| `src/ai/` | Three opponent policies and sampled equity from private/public observations |
+| `src/ui/` | Playable bunker table, accessible controls, card components, animations and diagnostic simulator |
+| `src/assets/` | Original procedural bunker/felt textures and asset provenance |
 | `src/main.tsx` | Browser entry point |
 
 Poker modules import no React, DOM, storage, network or desktop APIs. UI dispatches actions and renders results; it does not decide poker outcomes. Each transition validates its input, clones it, applies a command, validates the result and returns a new snapshot. Failed actions leave inputs unchanged. Snapshots are ordinary serializable data; callers must not mutate them. `validateGame` rejects malformed cards, inconsistent phases, impossible actors, invalid stacks and chip-conservation violations.
@@ -28,7 +29,7 @@ Phases are `ready → preflop → flop → turn → river → showdown`. A sole 
 
 `results` contains each pot, eligible seats, tied winners and exact awards. `refunds` records unmatched contributions. Settled commitments are zero; stacks include payouts/refunds. Player statuses at settlement describe their last hand participation (including all-in), not current funding; the next hand rebuilds statuses from stacks.
 
-`observe(game, seat)` returns detached public information plus only that seat's hole cards. It omits the deck, burn cards and every other seat's hole cards, even at showdown. Future AI must use this observation, never the full engine snapshot. The debug simulator intentionally controls every seat and exposes all hole cards; it is not an AI implementation or the final human-facing table.
+`observe(game, seat)` returns detached public information plus only that seat's hole cards. It omits the deck, burn cards and every other seat's hole cards, even at showdown. The implemented AI uses this observation, never the full engine snapshot. The optional diagnostic simulator controls every seat and exposes its own separate sandbox cards; it does not affect the playable session.
 
 ```ts
 import { createGame, startHand, seededRandom, legalActions, act } from './src/poker';
@@ -44,3 +45,17 @@ Keep timers, sounds, statistics and animations outside poker transitions. Add mo
 
 ## Validation
 `npm run test` runs all tests once; `npm run typecheck` checks TypeScript; `npm run build` checks types and builds `dist`; `npm run check` runs tests and build together. Engine suites cover categories/kickers, wheel straights, ties, all-ins, short/cumulative reopening, street transitions, folded dead money, side pots/refunds, odd chips, heads-up play, elimination, privacy and invalid commands/states. Seeded stress tests exercise 150 random-action hands and 50 complete elimination sessions and 100 short-stack scenarios.
+
+## Playable session and opponents
+
+`createSession(seed)` starts a four-seat game. `humanAction`, `computerAction`, and `nextHand` return new session objects. Deck and decision random streams derive from the session seed, hand number and revision, enabling reproducible tests without mutable RNG state. History records public actions, phase changes, blinds, awards and refunds; it never records hole cards. The visible tactical feed shows the latest 80 entries.
+
+`decide` consumes only an `observe` result, public betting events and injected randomness. It estimates equity using 24 unknown-card samples against remaining participants. Cautious, aggressive and balanced policies have distinct call margins, value-raise thresholds, bluff frequencies and pot-relative sizing. Pressure from recent same-street aggression and the fraction of available chips required to call influence decisions. Every amount is clamped to the engine's legal ranges; closed raising rights prevent raises. These are heuristic opponents, not an optimal poker solver or learned models.
+
+React schedules one opponent action at a time, normally 650 ms apart, and cleans up the timeout whenever the session changes, restarts, or unmounts. AI uses no hidden state through React. Unexpected errors halt scheduling and show a retry control rather than looping silently. StrictMode tests verify one action per scheduled turn. Human controls are enabled only for seat 0's turn.
+
+`visibleCards` permits human cards throughout a hand and non-folded opponents at showdown only. Folded cards and uncontested winners stay hidden. Betting results and revealed hand names are rendered after engine settlement. The single-player UI ends on human elimination or human victory; the underlying engine also supports continuing remaining seats separately.
+
+Card rendering, card CSS, animation keyframes, procedural texture CSS and game logic live in separate modules. Reduced-motion preferences disable animations. Session state and history are in memory only; refreshing or restarting clears them. No extra dependency, service, account or persistent storage was added.
+
+The playable milestone passes 74 tests across nine files, including 12 full single-player sessions and 20 opponent-policy hands in addition to prior engine stress tests. Chromium development/production each pass a reproducible 22-hand session through the actual UI. Native Windows and human usability/difficulty testing are separate outstanding checks.

@@ -1,0 +1,4 @@
+@keyframes card-deal { from { opacity: 0; transform: translateY(-12px) rotate(-5deg); } to { opacity: 1; transform: none; } }
+@keyframes turn-pulse { 50% { box-shadow: 0 0 22px #cfaa4838; } }
+.seat-panel.acting { animation: turn-pulse 2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

@@ -1,8 +1,8 @@
 # Outpost Poker
 
-An original single-player military-themed Texas Hold’em game for Windows browsers. One human will face three computer opponents using fictional chips only. No real-money gambling, backend, database, account or game engine is required.
+An original single-player military-themed Texas Hold’em game for Windows browsers. One human faces three computer opponents using fictional chips only. No real-money gambling, backend, database, account, Unity or Unreal Engine is used.
 
-**Current status:** independently testable no-limit Hold’em engine plus a minimal browser simulator. The final table UI and autonomous opponent strategies are not implemented.
+**Current status:** playable single-player no-limit Hold’em in an original military bunker environment. Face cautious Rook, aggressive Viper and balanced Anchor, with automatic opponent turns and a tested independent rules engine.
 
 ## Requirements
 Node.js 22.12 or newer and npm. Node 24 is recommended. Use a modern Windows browser such as Edge, Chrome or Firefox.
@@ -29,24 +29,28 @@ npm run build
 
 ## Project map
 - `src/poker`: deck, evaluation, betting state machine, pots and independent engine API.
-- `src/state`: lobby and future game state.
-- `src/ai`: opponent profiles and future strategies.
-- `src/ui`: React roster, diagnostic simulator and CSS.
-- `src/assets`: future licensed/original graphics and audio.
+- `src/state`: playable session, public action history and card visibility.
+- `src/ai`: profiles, sampled equity and distinct legal decision policies.
+- `src/ui`: playable table, betting controls, cards, animations and optional diagnostic simulator.
+- `src/assets`: original CSS bunker/felt textures and asset provenance.
 
 Read [GAME_DESIGN.md](GAME_DESIGN.md), [ARCHITECTURE.md](ARCHITECTURE.md), [ROADMAP.md](ROADMAP.md), and [AGENTS.md](AGENTS.md) before development. The frontend has relative build assets and isolated domain modules to support a future Windows wrapper. No desktop package exists yet.
 
 The GitHub repository currently retains its `Military-Poker-Game` repository name; the application is named **Outpost Poker**.
 
-## Demonstrate the rules engine
+## How to play
 
-Launch with `npm run dev` and scroll to **Rules engine simulator**:
+1. Run `npm run dev` and open the address Vite prints. A new game deals automatically: you and three opponents start with 1,000 fictional chips each; blinds are 10/20.
+2. Your cards appear at the bottom. The highlighted seat and turn banner show who acts. Wait for automatic opponent turns; controls unlock when it is your turn.
+3. Choose **Fold**, **Check**, **Call**, or **All-in**. For **Bet/Raise**, enter your total contribution for the current betting round (not the extra chips to add). The displayed legal range and disabled controls prevent invalid wagers.
+4. The engine progresses through flop, turn, river and showdown. When you fold or go all-in, remaining opponents continue automatically. Opponents reveal only non-folded showdown hands.
+5. Read the after-action report for pot awards/refunds and the tactical feed for public actions. Click **New hand** to continue with the remaining stacks.
+6. If you lose your stack or win all the chips, click **Play again**. **Restart game** resets the session at any time. Refreshing also resets play; there is no saved game yet.
 
-1. The seeded four-seat hand starts with the dealer, blinds, cards and current actor shown.
-2. Use Fold, Check, Call, All-in, or enter a **street total** and submit Bet/Raise. Disabled controls indicate unavailable actions; invalid amounts produce an error without changing the hand.
-3. **Call/check to showdown** finishes the hand with passive actions and displays individual pot payouts and unmatched refunds.
-4. **Next hand** rotates the button using the remaining stacks. **Reset simulation** restores four 1,000-chip stacks using the shuffle seed.
+The UI uses original CSS textures and fictional identity placeholders. Animated card dealing respects reduced-motion preferences. Windows desktop browsers are the intended platform; narrow layouts also adapt. All chips have no monetary value.
 
-This is a developer tool: all hole cards are visible and you control every seat. It does not pretend to implement AI. The engine defaults to fixed 10/20 blinds, moving-button rotation and clockwise odd-chip awards; see GAME_DESIGN.md for detailed conventions and ARCHITECTURE.md for the standalone API. Domain tests run without a browser, React rendering, backend or database.
+## Diagnostics and validation
 
-Engine checks cover hand rankings/kickers/ties, betting transitions, minimum and short raises, all-ins, side pots, odd chips, refunds, heads-up rules, elimination, chip conservation and AI-safe observations. The suite also simulates 150 random-action hands and 50 complete seeded sessions and 100 short-stack scenarios. All chips remain fictional.
+**Open diagnostic simulator** opens a separate developer sandbox with all cards visible and manual control of all seats; it does not expose or alter the active single-player game's cards. Read ARCHITECTURE.md for the standalone engine API and GAME_DESIGN.md for precise rule conventions.
+
+`npm run check` runs the entire automated suite and production build. Tests cover rules, payouts, privacy, AI policies, complete sessions, human betting controls, scheduling, reset and elimination. The AI is a sampled-equity heuristic, not a professional solver. Manual Windows Edge/Firefox, screen-reader/keyboard, animation comfort and gameplay-balance verification remain outstanding. No audio, persistence, statistics, alternative modes or desktop installer is implemented.
